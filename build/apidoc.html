@@ -1,0 +1,436 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/c58/marsdb"
+
+    >marsdb (v0.6.11)</a>
+</h1>
+<h4>MarsDB is a lightweight client-side MongoDB-like database, Promise based, written in ES6</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.marsdb">module marsdb</a><ol>
+
+        <li>
+
+            <span class="apidocSignatureSpan">boolean <span class="apidocSignatureSpan">marsdb.</span>__esModule</span>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.marsdb.Collection">
+            function <span class="apidocSignatureSpan">marsdb.</span>Collection
+            <span class="apidocSignatureSpan">(name)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.marsdb.CursorObservable">
+            function <span class="apidocSignatureSpan">marsdb.</span>CursorObservable
+            <span class="apidocSignatureSpan">(db, query, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.marsdb.EventEmitter">
+            function <span class="apidocSignatureSpan">marsdb.</span>EventEmitter
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.marsdb.PromiseQueue">
+            function <span class="apidocSignatureSpan">marsdb.</span>PromiseQueue
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.marsdb.Random">
+            function <span class="apidocSignatureSpan">marsdb.</span>Random
+            <span class="apidocSignatureSpan">(type)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.marsdb.StorageManager">
+            function <span class="apidocSignatureSpan">marsdb.</span>StorageManager
+            <span class="apidocSignatureSpan">(db)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.marsdb.debounce">
+            function <span class="apidocSignatureSpan">marsdb.</span>debounce
+            <span class="apidocSignatureSpan">(func, wait, batchSize)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.marsdb.default">
+            function <span class="apidocSignatureSpan">marsdb.</span>default
+            <span class="apidocSignatureSpan">(name)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">marsdb.</span>Base64</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">marsdb.</span>EJSON</span>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.marsdb" id="apidoc.module.marsdb">module marsdb</a></h1>
+
+
+
+
+    <h2>
+        <a href="#apidoc.element.marsdb.Collection" id="apidoc.element.marsdb.Collection">
+        function <span class="apidocSignatureSpan">marsdb.</span>Collection
+        <span class="apidocSignatureSpan">(name)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Collection(name) {
+  var options = arguments.length &#x3c;= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+  _classCallCheck(this, Collection);
+
+  var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Collection).call(this));
+
+  _this.options = options;
+  _this._modelName = name;
+
+  // Shorthand for defining in-memory collection
+  if (options.inMemory) {
+    options.cursorClass = options.cursorClass || _CursorObservable2.default;
+    options.delegate = options.delegate || _CollectionDelegate2.default;
+    options.storageManager = options.storageManager || _StorageManager2.default;
+    options.indexManager = options.indexManager || _IndexManager2.default;
+    options.idGenerator = options.idGenerator || _ShortIdGenerator2.default;
+  }
+
+  // Initialize collection only after configuration done
+  Collection.startup(function () {
+    return _this._lazyInitCollection();
+  });
+  return _this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.marsdb.CursorObservable" id="apidoc.element.marsdb.CursorObservable">
+        function <span class="apidocSignatureSpan">marsdb.</span>CursorObservable
+        <span class="apidocSignatureSpan">(db, query, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function CursorObservable(db, query, options) {
+  _classCallCheck(this, CursorObservable);
+
+  var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CursorObservable).call(this, db, query, options));
+
+  _this.maybeUpdate = (0, _bind3.default)(_this.maybeUpdate, _this);
+  _this._observers = 0;
+  _this._updateQueue = new _PromiseQueue2.default(1);
+  _this._propagateUpdate = (0, _debounce2.default)((0, _bind3.default)(_this._propagateUpdate, _this), 0, 0);
+  _this._doUpdate = (0, _debounce2.default)((0, _bind3.default)(_this._doUpdate, _this), _defaultDebounce, _defaultBatchSize);
+  return _this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.marsdb.EventEmitter" id="apidoc.element.marsdb.EventEmitter">
+        function <span class="apidocSignatureSpan">marsdb.</span>EventEmitter
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function AsyncEventEmitter() {
+  _classCallCheck(this, AsyncEventEmitter);
+
+  return _possibleConstructorReturn(this, Object.getPrototypeOf(AsyncEventEmitter).apply(this, arguments));
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.marsdb.PromiseQueue" id="apidoc.element.marsdb.PromiseQueue">
+        function <span class="apidocSignatureSpan">marsdb.</span>PromiseQueue
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function PromiseQueue() {
+  var maxPendingPromises = arguments.length &#x3c;= 0 || arguments[0] === undefined ? Infinity : arguments[0];
+  var maxQueuedPromises = arguments.length &#x3c;= 1 || arguments[1] === undefined ? Infinity : arguments[1];
+
+  _classCallCheck(this, PromiseQueue);
+
+  this.pendingPromises = 0;
+  this.maxPendingPromises = maxPendingPromises;
+  this.maxQueuedPromises = maxQueuedPromises;
+  this.queue = new _doubleEndedQueue2.default();
+  this.length = 0;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.marsdb.Random" id="apidoc.element.marsdb.Random">
+        function <span class="apidocSignatureSpan">marsdb.</span>Random
+        <span class="apidocSignatureSpan">(type)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Random(type) {
+  var options = arguments.length &#x3c;= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+  _classCallCheck(this, Random);
+
+  this.type = type;
+
+  (0, _invariant2.default)(RANDOM_GENERATOR_TYPE[type], &#x27;Random(...): no generator type %s&#x27;, type);
+
+  if (type === RANDOM_GENERATOR_TYPE.ALEA) {
+    (0, _invariant2.default)(options.seeds, &#x27;Random(...): seed is not provided for ALEA seeded generator&#x27;);
+    this.alea = Alea.apply(null, options.seeds);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.marsdb.StorageManager" id="apidoc.element.marsdb.StorageManager">
+        function <span class="apidocSignatureSpan">marsdb.</span>StorageManager
+        <span class="apidocSignatureSpan">(db)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function StorageManager(db) {
+  var options = arguments.length &#x3c;= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+  _classCallCheck(this, StorageManager);
+
+  this.db = db;
+  this.options = options;
+  this._queue = new _PromiseQueue2.default(1);
+  this._storage = {};
+  this.reload();
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.marsdb.debounce" id="apidoc.element.marsdb.debounce">
+        function <span class="apidocSignatureSpan">marsdb.</span>debounce
+        <span class="apidocSignatureSpan">(func, wait, batchSize)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function debounce(func, wait, batchSize) {
+  var timeout = null;
+  var callsCount = 0;
+  var promise = null;
+  var doNotResolve = true;
+  var _maybeResolve = null;
+
+  var debouncer = function debouncer() {
+    var context = this;
+    var args = arguments;
+
+    if (!promise) {
+      promise = new Promise(function (resolve, reject) {
+        _maybeResolve = function maybeResolve() {
+          if (doNotResolve) {
+            timeout = setTimeout(_maybeResolve, wait);
+            doNotResolve = false;
+          } else {
+            resolve(func.apply(context, args));
+            promise = null;
+            callsCount = 0;
+            timeout = null;
+            doNotResolve = true;
+            _maybeResolve = null;
+          }
+        };
+        _maybeResolve();
+      });
+    } else {
+      var callNow = batchSize &#x26;&#x26; callsCount &#x3e;= batchSize;
+      doNotResolve = !callNow;
+
+      if (callNow &#x26;&#x26; _maybeResolve) {
+        var returnPromise = promise;
+        returnPromise.debouncePassed = true;
+        clearTimeout(timeout);
+        _maybeResolve();
+        callsCount += 1;
+        return returnPromise;
+      }
+    }
+
+    callsCount += 1;
+    return promise;
+  };
+
+  var updateBatchSize = function updateBatchSize(newBatchSize) {
+    batchSize = newBatchSize;
+  };
+  var updateWait = function updateWait(newWait) {
+    wait = newWait;
+  };
+  var cancel = function cancel() {
+    clearTimeout(timeout);
+  };
+
+  debouncer.updateBatchSize = updateBatchSize;
+  debouncer.updateWait = updateWait;
+  debouncer.cancel = cancel;
+  debouncer.func = func;
+  return debouncer;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.marsdb.default" id="apidoc.element.marsdb.default">
+        function <span class="apidocSignatureSpan">marsdb.</span>default
+        <span class="apidocSignatureSpan">(name)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Collection(name) {
+  var options = arguments.length &#x3c;= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+  _classCallCheck(this, Collection);
+
+  var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Collection).call(this));
+
+  _this.options = options;
+  _this._modelName = name;
+
+  // Shorthand for defining in-memory collection
+  if (options.inMemory) {
+    options.cursorClass = options.cursorClass || _CursorObservable2.default;
+    options.delegate = options.delegate || _CollectionDelegate2.default;
+    options.storageManager = options.storageManager || _StorageManager2.default;
+    options.indexManager = options.indexManager || _IndexManager2.default;
+    options.idGenerator = options.idGenerator || _ShortIdGenerator2.default;
+  }
+
+  // Initialize collection only after configuration done
+  Collection.startup(function () {
+    return _this._lazyInitCollection();
+  });
+  return _this;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
